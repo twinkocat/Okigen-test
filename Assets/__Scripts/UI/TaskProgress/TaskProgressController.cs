@@ -6,32 +6,24 @@ public class TaskProgressController : Controller
     [SerializeField] private TaskProgressView       _view;
     [SerializeField] private FoodCollectCounter     _counter;
 
-    private int                                     _currentFoodCollected;
-
-    private void Awake()
-    {
-        if (_counter != null)
-            _counter.OnCollectedTasksFood += OnCollectedTasksFoodEventListener;
-        else
-            Debug.LogError("FoodCollectCounter not found!");
-    }
 
     private void Start()
     {
+        GameManager.Instance.OnCollectedFoodValueChange += OnCollectedTasksFoodEventListener;
         SendDataToView();
+
     }
 
     protected override void SendDataToView()
     {
         _view.DisplayText
             (
-                $"Progress: {_currentFoodCollected}/{GameManager.Instance.FoodValueForCompleteTask}"
+                $"Progress: {GameManager.Instance.CurrentFoodCollected}/{GameManager.Instance.FoodValueForCompleteTask}"
             );
     }
 
     private void OnCollectedTasksFoodEventListener()
     {
-        _currentFoodCollected++;
         SendDataToView();
     }
 

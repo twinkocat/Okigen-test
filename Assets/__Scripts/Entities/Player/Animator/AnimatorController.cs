@@ -6,6 +6,7 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private TrowInBucketScript         _trowInBucketScript;
     [Space]
     [SerializeField] private string                     _putInBucketTriggerName = "PutInBucket"; //defaultName
+    [SerializeField] private string                     _victoryTriggerName = "Victory"; //defaultName
 
     private Animator                                    _animator;
 
@@ -15,12 +16,18 @@ public class AnimatorController : MonoBehaviour
 
         if (_trowInBucketScript != null )
             _trowInBucketScript.OnFoodCached += PlayPutInBucketAnimation;
-        
+
+        GameManager.Instance.OnGameWin += PlayVictoryAnimation;
     }
 
     private void PlayPutInBucketAnimation()
     {
         _animator.SetTrigger(_putInBucketTriggerName);
+    }
+
+    private void PlayVictoryAnimation()
+    {
+        _animator.SetTrigger(_victoryTriggerName);
     }
 
 

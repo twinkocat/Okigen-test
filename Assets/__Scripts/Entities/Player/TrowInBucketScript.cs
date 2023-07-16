@@ -55,10 +55,12 @@ public class TrowInBucketScript : MonoBehaviour
 
     IEnumerator FoodStayIsKinematicDelay()
     {
-        while(!_handledFood.IsKinematic())
+        while(!_handledFood.Rb.isKinematic)
         {
             yield return new WaitForSeconds(_delayToStayInactiveInBucket);
-            _handledFood.SetStateInBucket(_bucketHandler.transform);
+            _handledFood.Rb.isKinematic = true;
+            _handledFood.Collider.enabled = false;
+            _handledFood.transform.SetParent(_bucketHandler.transform);
         }
     }
 

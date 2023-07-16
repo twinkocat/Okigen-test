@@ -4,13 +4,13 @@ using UnityEngine;
 public class FloatingTextInSceneController : MonoBehaviour
 {
     [Header("Dependencies")]
-    [SerializeField] private FoodHandler            _foodHandler;
+    [SerializeField] private FoodCollectCounter     _counter;
     [SerializeField] private PoolManager            _poolManager; 
     [SerializeField] private FloatingText           _floatingText;
 
     private void Start()
     {
-        _foodHandler.OnCollectedTasksFood += SpawnText;
+        _counter.OnCollectedTasksFood += SpawnText;
     }
 
     private void SpawnText()

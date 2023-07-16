@@ -5,12 +5,7 @@ public class TaskProgressView : View, IDisplayText
 {
     [SerializeField] private TMP_Text _text;
 
-    public override void Display()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void SetText(string text)
+    public void DisplayText(string text)
     {
         _text.text = text;
     }

@@ -3,5 +3,5 @@
 
 public interface IDisplayText
 {
-    public void SetText(string text);
+    public void DisplayText(string text);
 }

@@ -1,27 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+
 
 
 public class GameStateManager : MonoBehaviour
 {
-    [Header("Dependencies")]
-    [SerializeField] private TouchInput _touchInput;
-
-    public static GameStateManager Instance;
-
-    private enum Scenes
+    public enum Scenes
     {
         GameScene
-    }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
-        if (_touchInput == null)
-            Debug.LogError("TouchInput component is not assigned!");
     }
 
     private void Start()
@@ -32,7 +19,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Victory()
     {
-        _touchInput.TurnOffInput();
+        TouchInput.Instance.TurnOffInput();
     }
 
     public void NextLevel()
@@ -42,7 +29,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Restart()
     {
-        LoadScene(Scenes.GameScene);
+        SceneManager.LoadScene((int)Scenes.GameScene);
     }
 
     public void ExitGame()
@@ -50,9 +37,5 @@ public class GameStateManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void LoadScene(Scenes scene)
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene((int)scene);
-    }
 
 }

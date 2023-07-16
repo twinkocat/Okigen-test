@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     [Header("Dependencies")]
-    [SerializeField] private FoodHandler        _foodHandler;
+    [SerializeField] private FoodCollectCounter _counter;
     [Space]
     [SerializeField] private int _maxFoodValueForCompleteTask;
     [Space]
@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        if (_foodHandler != null)
-            _foodHandler.OnCollectedTasksFood += OnCollectedTasksFoodEventListener;
+        if (_counter != null)
+            _counter.OnCollectedTasksFood += OnCollectedTasksFoodEventListener;
         else
             Debug.LogError("FoodCollectCounter not found!");
 
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _currentFoodCollected = _maxFoodValueForCompleteTask;
-            Debug.LogError("Variable overflowed"); 
+            Debug.LogError("Something went wrong");
         }
 
     }
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         return Random.Range(minValue, maxValue);
     }
-    
+
     public Food FoodForTask { get { return _randomFoodForTask; } }
     public int FoodValueForCompleteTask { get { return _randomFoodValueForCompleteTask; } }
     public List<Food> FoodList { get { return _foodList; } }

@@ -35,7 +35,7 @@ public class AnimatorController : MonoBehaviour
     {
         if (_trowInBucketScript != null)
             _trowInBucketScript.OnFoodCached -= PlayPutInBucketAnimation;
-
-        GameManager.Instance.OnGameWin -= PlayVictoryAnimation;
     }
+
+
 }

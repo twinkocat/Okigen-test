@@ -9,13 +9,19 @@ public class TouchInput : MonoBehaviour
     private Camera                      _cameraMain;
     private Ray                         _ray;
 
+    public static TouchInput            Instance;
+
     public event Action<Vector3>        OnLayerMaskTargetTouch;
     public event Action                 OnLayerMaskTargetUntouch;
 
     private void Awake()
     {
-        _cameraMain = Camera.main;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
 
+        _cameraMain = Camera.main;
         if (_cameraMain == null)
         {
             Debug.LogError("No main camera found!");

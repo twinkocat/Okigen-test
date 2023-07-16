@@ -1,26 +1,15 @@
 using UnityEngine;
 
-public class MenuController : Controller
+public class MenuController : MonoBehaviour
 {
-    [SerializeField] private MenuView   _menuView;
-
     private void Start()
     {
-        GameManager.Instance.OnGameWin += SendDataToView;
+        gameObject.SetActive(false);
+        GameManager.Instance.OnGameWin += ShowMenu;
     }
 
-    protected override void SendDataToView()
+    private void ShowMenu()
     {
-        _menuView.Display();
-        _menuView.OnNextLevelButtonClick += GameStateManager.Instance.NextLevel;
-        _menuView.OnExitButtonClick += GameStateManager.Instance.ExitGame;
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnGameWin -= SendDataToView;
-
-        _menuView.OnNextLevelButtonClick -= GameStateManager.Instance.NextLevel;
-        _menuView.OnExitButtonClick -= GameStateManager.Instance.ExitGame;
+        gameObject.SetActive(true);
     }
 }

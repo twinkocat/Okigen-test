@@ -5,9 +5,6 @@ public class Food : MonoBehaviour
     [SerializeField] private string _foodName;
     [SerializeField] private Sprite _foodSprite;
 
-    public string FoodName => _foodName;
-    public Sprite Sprite => _foodSprite;
-
     private Rigidbody _rb;
     private Collider _collider;
 
@@ -17,31 +14,8 @@ public class Food : MonoBehaviour
         _collider = GetComponent<Collider>();
     }
 
-    public bool IsKinematic()
-    {
-        return _rb.isKinematic;
-    }
-
-    public void SetStateUnhanded()
-    {
-        transform.SetParent(null);
-        _rb.isKinematic = false;
-        _collider.enabled = true;
-        transform.localScale *= 0.66f;
-    }
-
-    public void SetStateInHand(Transform hand)
-    {
-        transform.SetParent(hand);
-        _rb.isKinematic = true;
-        _collider.enabled = false;
-        transform.position = transform.position;
-    }
-
-    public void SetStateInBucket(Transform bucket)
-    {
-        transform.SetParent(bucket);
-        _rb.isKinematic = true;
-        _collider.enabled = false;
-    }
+    public string FoodName { get { return _foodName; } }
+    public Sprite Sprite { get { return _foodSprite; } }
+    public Rigidbody Rb { get { return _rb; } }
+    public Collider Collider { get { return _collider; } }
 }

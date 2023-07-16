@@ -4,9 +4,11 @@ using UnityEngine;
 public class FoodHandler : MonoBehaviour
 {
     [Header("Dependencies")]
-    [SerializeField] private TrowInBucketScript    _trowInBucketScript;
+    [SerializeField] private TouchInput             _touchInput;
+    [SerializeField] private TrowInBucketScript     _trowInBucketScript;
 
     public event Action<Food>                       OnFoodHandled;
+    public event Action                             OnCollectedTasksFood;
 
 
     private void Awake()
@@ -15,6 +17,9 @@ public class FoodHandler : MonoBehaviour
             _trowInBucketScript.OnFoodTrowed += FoodUnhandle;
         else
             Debug.LogError("TrowInBucketScript component is not assigned!");
+
+        if (_touchInput == null)
+            Debug.LogError("TouchInput component is not assigned!");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,7 +28,7 @@ public class FoodHandler : MonoBehaviour
         {
             if (other.gameObject.TryGetComponent<Food>(out Food obj))
             {
-                TouchInput.Instance.TurnOffInput();
+                _touchInput.TurnOffInput();
                 FoodHandle(obj);
                 OnFoodHandled?.Invoke(obj);
             }
@@ -32,20 +37,16 @@ public class FoodHandler : MonoBehaviour
 
     private void FoodHandle(Food obj)
     {
-        obj.transform.SetParent(this.transform);
-        obj.Rb.isKinematic = true;
-        obj.Collider.enabled = false;
-        obj.transform.position = transform.position;
+        obj.SetStateInHand(this.transform);
+        
     }
 
     private void FoodUnhandle(Food obj)
     {
-        obj.transform.SetParent(null);
-        obj.Rb.isKinematic = false;
-        obj.Collider.enabled = true;
-        obj.transform.localScale *= 0.66f;
-
-        TouchInput.Instance.TurnOnInput();
+        if (obj.FoodName == GameManager.Instance.FoodForTask.FoodName)
+            OnCollectedTasksFood?.Invoke();
+        obj.SetStateUnhanded();
+        _touchInput.TurnOnInput();
     }
 
     private void OnDestroy()

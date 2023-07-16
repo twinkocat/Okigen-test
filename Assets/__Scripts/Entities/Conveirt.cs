@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Conveirt : MonoBehaviour
 {
+    [SerializeField] private GameObject _conveyorLine;
+
     [SerializeField] private float  _conveyorSpeed = 1f;
     private Rigidbody               _rb;
     private Material                _mat;
@@ -10,8 +12,13 @@ public class Conveirt : MonoBehaviour
 
     private void Awake()
     {
-        _mat = GetComponent<Renderer>().material;
-        _rb = GetComponent<Rigidbody>();
+        _mat = _conveyorLine.GetComponent<Renderer>().material;
+        _rb = _conveyorLine.GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnGameWin += SetDisabledConveyor;
     }
 
     private void FixedUpdate()
@@ -21,5 +28,15 @@ public class Conveirt : MonoBehaviour
         Vector3 pos = _rb.position;
         _rb.position += Vector3.left * _conveyorSpeed * Time.fixedDeltaTime;
         _rb.MovePosition(pos);
+    }
+
+    private void SetDisabledConveyor()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnGameWin -= SetDisabledConveyor;
     }
 }

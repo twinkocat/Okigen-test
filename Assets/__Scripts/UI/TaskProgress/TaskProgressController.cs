@@ -4,22 +4,21 @@ public class TaskProgressController : Controller
 {
     [Header("Dependencies")]
     [SerializeField] private TaskProgressView       _view;
-    [SerializeField] private FoodCollectCounter     _counter;
 
 
     private void Start()
     {
         GameManager.Instance.OnCollectedFoodValueChange += OnCollectedTasksFoodEventListener;
         SendDataToView();
-
     }
 
     protected override void SendDataToView()
     {
-        _view.DisplayText
+        _view.SetText
             (
                 $"Progress: {GameManager.Instance.CurrentFoodCollected}/{GameManager.Instance.FoodValueForCompleteTask}"
             );
+        _view.Display();
     }
 
     private void OnCollectedTasksFoodEventListener()
@@ -29,6 +28,6 @@ public class TaskProgressController : Controller
 
     private void OnDestroy()
     {
-        _counter.OnCollectedTasksFood -= OnCollectedTasksFoodEventListener;
+        GameManager.Instance.OnCollectedFoodValueChange -= OnCollectedTasksFoodEventListener;
     }
 }

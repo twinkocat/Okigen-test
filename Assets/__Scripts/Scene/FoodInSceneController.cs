@@ -13,7 +13,7 @@ public class FoodInSceneController : MonoBehaviour
 
     private void Start()
     {
-        _foodDeadZoneTrigger.OnTriggerZoneEnter += ReturnIntoPool;
+        _foodDeadZoneTrigger.OnTriggerZoneEnter += ReturnInPool;
 
         StartCoroutine(FoodSpawnMachine());
     }
@@ -42,13 +42,13 @@ public class FoodInSceneController : MonoBehaviour
         item.transform.position = transform.position;
     }
     
-    private void ReturnIntoPool(Food clone)
+    private void ReturnInPool(Food clone)
     {
         _poolManager.TakeToPool<Food>(clone.FoodName, clone);
     }
 
     private void OnDestroy()
     {
-        _foodDeadZoneTrigger.OnTriggerZoneEnter -= ReturnIntoPool;
+        _foodDeadZoneTrigger.OnTriggerZoneEnter -= ReturnInPool;
     }
 }

@@ -5,6 +5,7 @@ public class RigWeightController : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private Rig                _rig;
+    [SerializeField] private TouchInput         _touchInput;
     [Space]
     [Range(0, 1)]
     [SerializeField] private float              _defaultWeight = 0f;
@@ -17,8 +18,13 @@ public class RigWeightController : MonoBehaviour
         else
             Debug.LogError("Rig component is not assigned!");
 
-        TouchInput.Instance.OnLayerMaskTargetTouch += RigWeightIncrease;
-        TouchInput.Instance.OnLayerMaskTargetUntouch += RigWeightToDefault;
+        if (_touchInput != null)
+        {
+            _touchInput.OnLayerMaskTargetTouch += RigWeightIncrease;
+            _touchInput.OnLayerMaskTargetUntouch += RigWeightToDefault;
+        }
+        else
+            Debug.LogError("TouchInput component is not assigned!");
     }
 
     private void RigWeightIncrease(Vector3 point)
@@ -34,7 +40,7 @@ public class RigWeightController : MonoBehaviour
 
     private void OnDestroy()
     {
-        TouchInput.Instance.OnLayerMaskTargetTouch -= RigWeightIncrease;
-        TouchInput.Instance.OnLayerMaskTargetUntouch -= RigWeightToDefault;
+        _touchInput.OnLayerMaskTargetTouch -= RigWeightIncrease;
+        _touchInput.OnLayerMaskTargetUntouch -= RigWeightToDefault;
     }
 }
